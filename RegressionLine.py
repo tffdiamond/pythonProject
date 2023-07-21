@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-data = pd.read_csv("txt.csv")
+data = pd.read_csv("sampleData.csv")
+print(data)
 
 
 def gradient_descent(m_now, b_now, points, L):
@@ -14,13 +15,13 @@ def gradient_descent(m_now, b_now, points, L):
         x = points.iloc[i].studytime
         y = points.iloc[i].examscore
 
-        m_gradient += -(2/n) * x * (y - (m_now * x + b_now))
-        b_gradient += -(2/n) * (y - (m_now * x + b_now))
+        m_gradient += -(2 / n) * x * (y - (m_now * x + b_now))
+        b_gradient += -(2 / n) * (y - (m_now * x + b_now))
 
-    m = m_now - m_gradient * L
-    b = b_now - b_gradient * L
+    slope = m_now - m_gradient * L
+    intercept = b_now - b_gradient * L
 
-    return m, b
+    return slope, intercept
 
 
 m = 0
@@ -33,7 +34,8 @@ for i in range(epochs):
         print(f"Epoch: {i}")
     m, b = gradient_descent(m, b, data, L)
 
-print(m, b)
+print(f"Slope (m) of the regression line: {m}")
+print(f"Intercept (b) of the regression line: {b}")
 
 plt.scatter(data.studytime, data.examscore, color="black")
 plt.plot(list(range(1, 10)), [m * x + b for x in range(1, 10)], color="red")
