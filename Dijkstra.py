@@ -3,14 +3,11 @@ infinity = float("inf")
 
 def make_graph():
     return {
-        'A': [(4, 'B'), (1, 'C'), (6, 'D')],
-        'B': [(1, 'E'), (6, 'C'), (4, 'F')],
-        'C': [(6, 'F'), (8, 'D')],
-        'D': [8, 'G'],
-        'E': [(3, 'F')],
-        'F': [(5, 'H'), (2, 'G')],
-        'G': [(1, 'H'), (3, 'I')],
-        'H': [(2, 'I')],
+        'A': [(4, 'B'), (2, 'C')],
+        'B': [(3, 'C'), (3, 'E'), (2, 'D')],
+        'C': [(1, 'B'), (4, 'D'), (5, 'E')],
+        'D': [],
+        'E': [(1, 'D')],
     }
 
 
@@ -49,10 +46,8 @@ def main():
     start = 'A'
 
     shortest_paths = dijkstras(G, start)
-    # shortest_paths_using_heap = dijkstras_heap(G, start)
 
     print(f'Shortest path from {start}: {shortest_paths}')
-    # print(f'Shortest path from {start} using heap: {shortest_paths_using_heap}')
 
 
 main()
