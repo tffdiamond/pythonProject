@@ -1,16 +1,16 @@
+import matplotlib.pyplot as plt
+import networkx as nx
+
 infinity = float("inf")
 
 
 def make_graph():
     return {
-        'A': [(4, 'B'), (1, 'C'), (6, 'D')],
-        'B': [(1, 'E'), (6, 'C'), (4, 'F')],
-        'C': [(6, 'F'), (8, 'D')],
-        'D': [8, 'G'],
-        'E': [(3, 'F')],
-        'F': [(5, 'H'), (2, 'G')],
-        'G': [(1, 'H'), (3, 'I')],
-        'H': [(2, 'I')],
+        'A': [(4, 'B'), (2, 'C')],
+        'B': [(3, 'C'), (3, 'E'), (2, 'D')],
+        'C': [(1, 'B'), (4, 'D'), (5, 'E')],
+        'D': [],
+        'E': [(1, 'D')],
     }
 
 
@@ -45,14 +45,27 @@ def dijkstras(G, start='A'):
 
 
 def main():
-    G = make_graph()
+    graph = make_graph()
+    G = nx.from_dict_of_lists(graph)
     start = 'A'
 
-    shortest_paths = dijkstras(G, start)
-    # shortest_paths_using_heap = dijkstras_heap(G, start)
+    shortest_paths = dijkstras(graph, start)
+    weight = nx.get_edge_attributes(G, 'weight')
+    pos = nx.get_node_attributes(G, 'pos')
+    shortest_paths_tuple = tuple(shortest_paths.keys())
+    sp = []
+    for i in range(0, len(shortest_paths_tuple) - 1):
+        sp.append((shortest_paths_tuple[i], shortest_paths_tuple[i + 1]))
+
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=weight)
+    nx.draw(G, pos, with_labels=weight)
+    # painting every edge green
+    nx.draw_networkx_edges(G, pos, edge_color="green")
+    # painting specific edges red
+    nx.draw_networkx_edges(G, pos, edgelist=sp, edge_color="red")
+    plt.show()
 
     print(f'Shortest path from {start}: {shortest_paths}')
-    # print(f'Shortest path from {start} using heap: {shortest_paths_using_heap}')
 
 
 main()
